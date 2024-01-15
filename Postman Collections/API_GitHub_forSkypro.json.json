@@ -1,0 +1,266 @@
+{
+	"info": {
+		"_postman_id": "48de11cb-c22b-490e-a2fa-173980cc95ce",
+		"name": "Аттестация. GitHub issues",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Создать проблему",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "f41c986d-3c95-478b-9c1e-2ee1303262f1",
+						"exec": [
+							"var key = \"i_number\"\r",
+							"var value = pm.response.json().number\r",
+							"\r",
+							"pm.collectionVariables.set(key, value);\r",
+							"\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"id": "0fb20053-6326-40d5-a993-c4471d835ed1",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": {
+						"token": "{{MyToken}}"
+					}
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/vnd.github+json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"title\": \"Issue 1\",\r\n    \"body\": \"Something went wrong\",\r\n    \"labels\": [\r\n        {\r\n        \"name\": \"bug\"\r\n        }\r\n    ],\r\n    \"assignee\": \"KseniyaProshkina\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "{{BaseUrl}}/repos/KseniyaProshkina/MyRepository/issues"
+			},
+			"response": []
+		},
+		{
+			"name": "Получить список проблем",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "54510fb6-f02a-489f-a7ea-d070fd0cc879",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"id": "4acfa387-0903-4af7-bc27-9f3b891d7468",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": {
+						"token": "{{MyToken}}"
+					}
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/vnd.github+json",
+						"type": "text"
+					}
+				],
+				"url": "{{BaseUrl}}/repos/KseniyaProshkina/MyRepository/issues"
+			},
+			"response": []
+		},
+		{
+			"name": "Редактировать название проблемы",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "fa491781-a8d6-49f8-b898-5993a219250a",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"id": "58696de1-d2bf-4be5-9f9c-11898167d43c",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": {
+						"token": "{{MyToken}}"
+					}
+				},
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/vnd.github+json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"title\": \"Issue 2\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "{{BaseUrl}}/repos/KseniyaProshkina/MyRepository/issues/{{i_number}}"
+			},
+			"response": []
+		},
+		{
+			"name": "Закрыть проблему",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "152d0dfa-a83e-4219-92f6-692a32d249e2",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"id": "32393d12-a79f-403e-a84d-574cd1030501",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"state\": \"closed\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "{{BaseUrl}}/repos/KseniyaProshkina/MyRepository/issues/{{i_number}}"
+			},
+			"response": []
+		},
+		{
+			"name": "Удалить проблему",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "fc00e11a-76ff-4a73-b900-9a82c54ed31f",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(204);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"id": "5963b750-1cfb-4996-b40d-4ef5bc5befbc",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": {
+						"token": "{{MyToken}}"
+					}
+				},
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/vnd.github+json",
+						"type": "text"
+					}
+				],
+				"url": "{{BaseUrl}}/repos/KseniyaProshkina/MyRepository/issues/{{i_number}}/lock"
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": {
+			"token": "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"
+		}
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "791ad509-fcfb-4231-99b3-9f08e163ffd7",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "758334be-1238-47e4-8f08-a5f9e22bdcef",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "MyToken",
+			"value": "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"
+		},
+		{
+			"key": "BaseUrl",
+			"value": "https://api.github.com"
+		},
+		{
+			"key": "i_number",
+			"value": ""
+		}
+	]
+}
