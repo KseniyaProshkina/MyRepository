@@ -1,0 +1,283 @@
+{
+	"info": {
+		"_postman_id": "48de11cb-c22b-490e-a2fa-173980cc95ce",
+		"name": "Аттестация. GitHub issues",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Создать проблему",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "f41c986d-3c95-478b-9c1e-2ee1303262f1",
+						"exec": [
+							"var key = \"i_number\"\r",
+							"var value = pm.response.json().number\r",
+							"\r",
+							"pm.collectionVariables.set(key, value);\r",
+							"\r",
+							"var key = \"node_id\"\r",
+							"var value = pm.response.json().node_id\r",
+							"\r",
+							"pm.collectionVariables.set(key, value);\r",
+							"\r",
+							"\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"id": "0fb20053-6326-40d5-a993-c4471d835ed1",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": {
+						"token": "{{MyToken}}"
+					}
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/vnd.github+json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"title\": \"Issue 1\",\r\n    \"body\": \"Something went wrong\",\r\n    \"labels\": [\r\n        {\r\n        \"name\": \"bug\"\r\n        }\r\n    ],\r\n    \"assignee\": \"KseniyaProshkina\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "{{BaseUrl}}/repos/KseniyaProshkina/MyRepository/issues"
+			},
+			"response": []
+		},
+		{
+			"name": "Получить список проблем",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "54510fb6-f02a-489f-a7ea-d070fd0cc879",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"id": "4acfa387-0903-4af7-bc27-9f3b891d7468",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": {
+						"token": "{{MyToken}}"
+					}
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/vnd.github+json",
+						"type": "text"
+					}
+				],
+				"url": "{{BaseUrl}}/repos/KseniyaProshkina/MyRepository/issues"
+			},
+			"response": []
+		},
+		{
+			"name": "Редактировать название проблемы",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "fa491781-a8d6-49f8-b898-5993a219250a",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"id": "58696de1-d2bf-4be5-9f9c-11898167d43c",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": {
+						"token": "{{MyToken}}"
+					}
+				},
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/vnd.github+json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"title\": \"Issue 2\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "{{BaseUrl}}/repos/KseniyaProshkina/MyRepository/issues/{{i_number}}"
+			},
+			"response": []
+		},
+		{
+			"name": "Закрыть проблему",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "152d0dfa-a83e-4219-92f6-692a32d249e2",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"id": "32393d12-a79f-403e-a84d-574cd1030501",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"state\": \"closed\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "{{BaseUrl}}/repos/KseniyaProshkina/MyRepository/issues/{{i_number}}"
+			},
+			"response": []
+		},
+		{
+			"name": "Удалить проблему",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "fc00e11a-76ff-4a73-b900-9a82c54ed31f",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(204);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"id": "38f3616d-9e10-4848-93b6-0fbf09da667e",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": {
+						"token": "{{MyToken}}"
+					}
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/vnd.github+json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": "mutation{\r\n    deleteIssue(input: {issueId:\"{{node_id}}\",\r\n    clientMutationId:\"Задача удалилась\"})\r\n    {clientMutationId}\r\n}",
+						"variables": ""
+					}
+				},
+				"url": "{{BaseUrl}}/graphql"
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": {
+			"token": "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"
+		}
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "a524edfa-5790-4045-bc95-51c72675fed8",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "a08d3ed3-88dc-4092-89f8-b003c87f193e",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "MyToken",
+			"value": "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"
+		},
+		{
+			"key": "BaseUrl",
+			"value": "https://api.github.com"
+		},
+		{
+			"key": "i_number",
+			"value": ""
+		},
+		{
+			"key": "node_id",
+			"value": ""
+		}
+	]
+}
